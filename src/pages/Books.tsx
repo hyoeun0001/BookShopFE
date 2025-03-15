@@ -17,10 +17,8 @@ function Books() {
     books,
     pagination,
     isEmpty,
-    isBooksLoading,
-    fetchNextPage,
-    hasNextPage,
-  } = useBooksInfinite();
+    isBooksLoading
+  } = useBooks();
 
   //const moreRef = useRef(null);
 
@@ -41,16 +39,18 @@ function Books() {
   //   return () => observer.disconnect();
   // }, [books, moreRef]);
 
-  const moreRef = useIntersectionObserver(([entry]) => {
-    if (entry.isIntersecting) {
-      loadMore();
-    }
-  });
 
-  const loadMore = () => {
-    if (!hasNextPage) return;
-    fetchNextPage();
-  };
+  // 무한 스크롤?
+  // const moreRef = useIntersectionObserver(([entry]) => {
+  //   if (entry.isIntersecting) {
+  //     loadMore();
+  //   }
+  // });
+
+  // const loadMore = () => {
+  //   if (!hasNextPage) return;
+  //   fetchNextPage();
+  // };
 
   if (isEmpty) {
     return <BooksEmpty />;
@@ -70,8 +70,9 @@ function Books() {
         </div>
         <BooksList books={books} />
         {/* <Pagination pagination={pagination} /> */}
+        <Pagination pagination={pagination}/>
 
-        <div className="more" ref={moreRef}>
+        {/* <div className="more" ref={moreRef}>
           <Button
             size="medium"
             scheme="normal"
@@ -80,7 +81,7 @@ function Books() {
           >
             {hasNextPage ? "더보기" : "마지막 페이지"}
           </Button>
-        </div>
+        </div> */}
       </BooksStyle>
     </>
   );

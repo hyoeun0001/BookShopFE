@@ -5,7 +5,7 @@ import { httpClient } from "./http";
 interface FetchBooksParams {
   category_id?: number;
   news?: boolean;
-  currentPage: number;
+  currentPage?: number;
   limit: number;
 }
 

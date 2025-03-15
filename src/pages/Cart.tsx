@@ -70,29 +70,31 @@ function Cart() {
   return (
     <>
       <Title size="large">장바구니</Title>
-      <Cartstyle>
+      
         {!isEmpty && (
           <>
-            <div className="content">
-              {carts.map((item) => (
-                <CartItem
-                  key={item.id}
-                  cart={item}
-                  checkedItems={checkedItems}
-                  onCheck={handleCheckItem}
-                  onDelete={handleItemDelete}
+            <Cartstyle>
+              <div className="content">
+                {carts.map((item) => (
+                  <CartItem
+                    key={item.id}
+                    cart={item}
+                    checkedItems={checkedItems}
+                    onCheck={handleCheckItem}
+                    onDelete={handleItemDelete}
+                  />
+                ))}
+              </div>
+              <div className="summary">
+                <CartSummary
+                  totalQuantity={totalQuantity}
+                  totalPrice={totalPrice}
                 />
-              ))}
-            </div>
-            <div className="summary">
-              <CartSummary
-                totalQuantity={totalQuantity}
-                totalPrice={totalPrice}
-              />
-              <Button size="large" scheme="primary" onClick={handleOrder}>
-                주문하기
-              </Button>
-            </div>
+                <Button size="large" scheme="primary" onClick={handleOrder}>
+                  주문하기
+                </Button>
+              </div>
+            </Cartstyle>
           </>
         )}
         {isEmpty && (
@@ -102,7 +104,7 @@ function Cart() {
             description={<>장바구니를 채워보세요.</>}
           />
         )}
-      </Cartstyle>
+      
     </>
   );
 }
