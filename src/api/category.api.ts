@@ -2,6 +2,6 @@ import { Category } from "../models/category.model";
 import { httpClient } from "./http";
 
 export const fetchCategory = async () => {
-  const response = await httpClient.get<Category[]>("/category");
+  const response = await httpClient.get<Category[]>("/api/category");
   return response.data;
 };

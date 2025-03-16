@@ -13,7 +13,7 @@ const mockReviewData: BookReviewItem[] = Array.from({ length: 8 }).map(
 );
 
 export const reviewsById = http.get(
-  "http://localhost:9999/reviews/:bookId",
+  "http://localhost:8080/api/reviews/:bookId",
   () => {
     return HttpResponse.json(mockReviewData, {
       status: 200,
@@ -22,7 +22,7 @@ export const reviewsById = http.get(
 );
 
 export const addReview = http.post(
-  "http://localhost:9999/reviews/:bookId",
+  "http://localhost:8080/api/reviews/:bookId",
   () => {
     return HttpResponse.json(
       {
@@ -35,7 +35,7 @@ export const addReview = http.post(
   }
 );
 
-export const reviewForMain = http.get("http://localhost:9999/reviews", () => {
+export const reviewForMain = http.get("http://localhost:8080/api/reviews", () => {
   return HttpResponse.json(mockReviewData, {
     status: 200,
   });

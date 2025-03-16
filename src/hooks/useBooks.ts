@@ -12,7 +12,7 @@ export const useBooks = () => {
     ["books", location.search],
     () =>
       fetchBooks({
-        category_id: params.get(QUERYSTRING.CATEGORY_ID)
+        categoryId: params.get(QUERYSTRING.CATEGORY_ID)
           ? Number(params.get(QUERYSTRING.CATEGORY_ID))
           : undefined,
         news: params.get(QUERYSTRING.NEWS) ? true : undefined,

@@ -17,7 +17,7 @@ export const useMain = () => {
     });
 
     fetchBooks({
-      category_id: undefined,
+      categoryId: undefined,
       news: true,
       currentPage: 1,
       limit: 4,

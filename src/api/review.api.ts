@@ -2,7 +2,7 @@ import { BookReviewItem, BookReviewItemWrite } from "@/models/book.model";
 import { requestHandler } from "./http";
 
 export const fetchBookReview = async (bookId: string) => {
-  return await requestHandler<BookReviewItem>("get", `/reviews/${bookId}`);
+  return await requestHandler<BookReviewItem>("get", `/api/reviews/${bookId}`);
 };
 
 interface AddBookReviewResponse {
@@ -15,10 +15,10 @@ export const addBookReview = async (
 ) => {
   return await requestHandler<AddBookReviewResponse>(
     "post",
-    `/reviews/${bookId}`
+    `/api/reviews/${bookId}`
   );
 };
 
 export const fetchReviewAll = async () => {
-  return await requestHandler<BookReviewItem[]>("get", "/reviews");
+  return await requestHandler<BookReviewItem[]>("get", "/api/reviews");
 };

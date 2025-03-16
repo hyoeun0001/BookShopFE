@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { useCategory } from "../../hooks/useCategory";
 import { useAuthStore } from "../../store/authStore";
+import { logout } from "@/api/auth.api";
 import Dropdown from "./Dropdown";
 import ThemeSwitcher from "../header/ThemeSwitcher";
 import { useState } from "react";
@@ -33,7 +34,6 @@ function Header() {
         >
           {isMobileOpen ? <FaAngleRight /> : <FaBars />}
         </button>
-
         <ul>
           {category.map((item) => (
             <li key={item.category_id}>
@@ -41,7 +41,7 @@ function Header() {
                 to={
                   item.category_id === null
                     ? "/books"
-                    : `/books?category_id=${item.category_id}`
+                    : `/books?categoryId=${item.category_id}`
                 }
               >
                 {item.category_name}
@@ -51,40 +51,49 @@ function Header() {
         </ul>
       </nav>
       <nav className="auth">
-        <Dropdown toggleButton={<FaUserCircle />}>
-          <>
-            {isloggedIn && (
-              <ul>
-                <li>
-                  <Link to="/cart">장바구니</Link>
-                </li>
-                <li>
-                  <Link to="/orderlist">주문내역</Link>
-                </li>
-                <li>
-                  <button onClick={storeLogout}>로그아웃</button>
-                </li>
-              </ul>
-            )}
-            {!isloggedIn && (
-              <ul>
-                <li>
-                  <Link to="/login">
-                    <FaSignInAlt />
-                    로그인
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/signup">
-                    <FaRegUser />
-                    회원가입
-                  </Link>
-                </li>
-              </ul>
-            )}
+        {isloggedIn ? (
+          <Dropdown toggleButton={<FaUserCircle />}>
+            <DropdownMenu>
+              <li>
+                <Link to="/cart">장바구니</Link>
+              </li>
+              <li>
+                <Link to="/orderlist">주문내역</Link>
+              </li>
+              <li>
+                <button
+                  onClick={async () => {
+                    try {
+                      await logout();
+                      storeLogout();
+                      window.location.href = "/";
+                    } catch (error) {
+                      console.error("로그아웃 실패:", error);
+                    }
+                  }}
+                >
+                  로그아웃
+                </button>
+              </li>
+            </DropdownMenu>
             <ThemeSwitcher />
-          </>
-        </Dropdown>
+          </Dropdown>
+        ) : (
+          <AuthMenu>
+            <li>
+              <Link to="/login">
+                <FaSignInAlt />
+                로그인
+              </Link>
+            </li>
+            <li>
+              <Link to="/signup">
+                <FaRegUser />
+                회원가입
+              </Link>
+            </li>
+          </AuthMenu>
+        )}
       </nav>
     </HeaderStyle>
   );
@@ -98,7 +107,6 @@ const HeaderStyle = styled.header<HeaderStyleProps>`
   width: 100%;
   margin: 0 auto;
   max-width: ${({ theme }) => theme.layout.width.large};
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -124,39 +132,8 @@ const HeaderStyle = styled.header<HeaderStyleProps>`
           font-weight: 600;
           text-decoration: none;
           color: ${({ theme }) => theme.color.text};
-
           &:hover {
             color: ${({ theme }) => theme.color.primary};
-          }
-        }
-      }
-    }
-  }
-
-  .auth {
-    ul {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      width: 100px;
-      li {
-        a,
-        button {
-          font-size: 1rem;
-          font-weight: 600;
-          text-decoration: none;
-
-          display: flex;
-          align-item: center;
-          justify-content: center;
-          line-height: 1;
-
-          background: none;
-          border: 0;
-          cursor: pointer;
-
-          svg {
-            margin-right: 6px;
           }
         }
       }
@@ -168,7 +145,6 @@ const HeaderStyle = styled.header<HeaderStyleProps>`
 
     .logo {
       padding: 0 0 0 12px;
-
       img {
         width: 140px;
       }
@@ -189,6 +165,7 @@ const HeaderStyle = styled.header<HeaderStyleProps>`
         background: #fff;
         border: 0;
         font-size: 1.5rem;
+        transition: right 0.3s ease-in-out;
       }
 
       ul {
@@ -200,13 +177,82 @@ const HeaderStyle = styled.header<HeaderStyleProps>`
         background: #fff;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         transition: right 0.3s ease-in-out;
-
         margin: 0;
         padding: 24px;
         z-index: 1000;
-
         flex-direction: column;
         gap: 16px;
+      }
+    }
+  }
+`;
+
+// 비로그인 상태의 메뉴 스타일
+const AuthMenu = styled.ul`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+
+  li {
+    a {
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      background: ${({ theme }) => theme.color.primaryLight};
+      border-radius: 4px;
+      padding: 8px 12px;
+
+      &:hover {
+        background: ${({ theme }) => theme.color.primary};
+        color: white;
+      }
+
+      svg {
+        margin-right: 6px;
+      }
+    }
+  }
+`;
+
+// 로그인 상태의 드롭다운 메뉴 스타일
+const DropdownMenu = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100px;
+
+  li {
+    width: 100%;
+    a,
+    button {
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      line-height: 1;
+      background: ${({ theme }) => theme.color.primaryLight};
+      border-radius: 4px;
+      padding: 8px 12px;
+      border: 0;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+
+      &:hover {
+        background: ${({ theme }) => theme.color.primary};
+        color: white;
+      }
+
+      svg {
+        margin-right: 6px;
       }
     }
   }

@@ -28,7 +28,7 @@ const bannersData: Banner[] = [
   },
 ];
 
-export const banners = http.get("http://localhost:9999/banners", () => {
+export const banners = http.get("http://localhost:8080/banners", () => {
   return HttpResponse.json(bannersData, {
     status: 200,
   });

@@ -19,7 +19,7 @@ const bestBooksData: Book[] = Array.from({ length: 10 }).map((item, index) => ({
   pubDate: faker.date.past().toISOString(),
 }));
 
-export const bestBooks = http.get("http://localhost:9999/books/best", () => {
+export const bestBooks = http.get("http://localhost:8080/api/books/best", () => {
   return HttpResponse.json(bestBooksData, {
     status: 200,
   });

@@ -52,7 +52,7 @@ export const useBook = (bookId: string | undefined) => {
   const addToCart = (quantity: number) => {
     if (!book) return;
     addCart({
-      book_id: book.id,
+      bookId: book.id,
       quantity: quantity,
     }).then(() => {
       setCartAdded(true);
@@ -66,7 +66,7 @@ export const useBook = (bookId: string | undefined) => {
     if (!bookId) return;
 
     fetchBook(bookId).then((book) => {
-      setBook(book);
+      setBook(book || null);
     });
 
     fetchBookReview(bookId).then((reviews) => {

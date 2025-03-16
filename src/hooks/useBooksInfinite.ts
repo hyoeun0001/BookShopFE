@@ -9,7 +9,7 @@ export const useBooksInfinite = () => {
 
   const getBooks = ({ pageParam }: { pageParam: number }) => {
     const params = new URLSearchParams(location.search);
-    const category_id = params.get(QUERYSTRING.CATEGORY_ID)
+    const categoryId = params.get(QUERYSTRING.CATEGORY_ID)
       ? Number(params.get(QUERYSTRING.CATEGORY_ID))
       : undefined;
     const news = params.get(QUERYSTRING.NEWS) ? true : undefined;
@@ -17,7 +17,7 @@ export const useBooksInfinite = () => {
     const currentPage = pageParam;
 
     return fetchBooks({
-      category_id,
+      categoryId,
       news,
       limit,
       currentPage,
