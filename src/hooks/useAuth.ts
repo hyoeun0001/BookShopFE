@@ -5,6 +5,7 @@ import { useAlert } from "./useAlert";
 import { useNavigate } from "react-router-dom";
 import { SignupProps } from "@/pages/Signup";
 import { useState } from "react";
+import { ResetPasswordProps } from "@/pages/ResetPassword";
 
 export const useAuth = () => {
   const { showAlert } = useAlert();
@@ -32,7 +33,7 @@ export const useAuth = () => {
     });
   };
 
-  const userResetPassword = (data: SignupProps) => {
+  const userResetPassword = (data: ResetPasswordProps) => {
     resetPassword(data).then(() => {
       showAlert("비밀번호가 초기화되었습니다.");
       navigate("/login");
@@ -41,7 +42,7 @@ export const useAuth = () => {
 
   const [resetRequested, setResetRequested] = useState(false);
 
-  const userResetRequest = (data: SignupProps) => {
+  const userResetRequest = (data: ResetPasswordProps) => {
     resetRequest(data).then(() => {
       setResetRequested(true);
     });

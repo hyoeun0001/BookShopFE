@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { SignupStyle } from "./Signup";
 import { useAuth } from "@/hooks/useAuth";
 
-export interface SignupProps {
+export interface ResetPasswordProps {
   email: string;
   password: string;
 }
@@ -18,9 +18,9 @@ function ResetPassword() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignupProps>();
+  } = useForm<ResetPasswordProps>();
 
-  const onSubmit = (data: SignupProps) => {
+  const onSubmit = (data: ResetPasswordProps) => {
     resetRequested ? userResetPassword(data) : userResetRequest(data);
   };
 
